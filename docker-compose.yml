@@ -1,0 +1,48 @@
+version: '3.8'
+
+# create MongoDB container
+services:
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo:4.2.0
+    # volume to persist data
+    volumes:
+      - ./data:/data/db
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+
+  # create container for JSONSchemaDiscovery
+  webapi:
+    container_name: webapi
+    build:
+      context: ./JSONSchemaDiscovery
+      dockerfile: Dockerfile       
+    ports:
+      - 4200:4200
+      - 3000:3000
+    expose:
+      - 4200
+      - 3000
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017
+      - SECRET_TOKEN=talkischeapshowmethecode
+    depends_on:
+      - mongo
+
+  # create container to run the experiment
+  experiment:
+    container_name: experiment
+    build:
+      context: ./Experiment
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    depends_on:
+      - webapi
+
+# mount volumes for MongoDB
+volumes:
+  mongo: {}
