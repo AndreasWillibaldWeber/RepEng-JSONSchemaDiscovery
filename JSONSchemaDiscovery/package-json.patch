@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index cf0d21b..a16f928 100644
+--- a/package.json
++++ b/package.json
+@@ -15,7 +15,7 @@
+     "predev": "tsc -p server",
+     "backend": "concurrently \"tsc -w -p server\" \"nodemon dist/server/app.js\"",
+     "frontend": "ng serve --open",
+-    "dev": "concurrently \"mongod\" \"ng serve --open\" \"tsc -w -p server\" \"nodemon dist/server/app.js\"",
++    "dev": "concurrently \"ng serve --host 0.0.0.0 --open\" \"tsc -w -p server\" \"nodemon dist/server/app.js\"",
+     "prod": "concurrently \"ng build -aot -prod && tsc -p server && node dist/server/app.js\""
+   },
+   "private": true,

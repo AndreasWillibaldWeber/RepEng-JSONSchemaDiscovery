@@ -32,6 +32,10 @@ RUN git clone https://github.com/feekosta/JSONSchemaDiscovery/
 WORKDIR /app/JSONSchemaDiscovery
 RUN git checkout tags/1.1.0
 
+# apply patch to fix npm run dev command
+COPY package-json.patch .
+RUN git apply package-json.patch
+
 # install all project dependencies 
 RUN npm install
 
@@ -40,5 +44,4 @@ WORKDIR /app
 COPY entrypoint.sh /app
 RUN chmod +x entrypoint.sh
 
-# start JSONSchemaDiscovery project as docker entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
