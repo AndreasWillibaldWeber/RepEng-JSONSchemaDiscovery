@@ -44,4 +44,5 @@ WORKDIR /app
 COPY entrypoint.sh /app
 RUN chmod +x entrypoint.sh
 
+# start JSONSchemaDiscovery project as docker entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
