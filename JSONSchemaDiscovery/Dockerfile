@@ -11,6 +11,7 @@ ENV PYTHON=/usr/bin/python3
 RUN apt update && apt install -y \
     ca-certificates \
     git \
+    g++ \
     python3 \
     python3-pip \
     make
