@@ -28,13 +28,17 @@ RUN npm install -g typescript
 RUN cd /app
 RUN git clone https://github.com/feekosta/JSONSchemaDiscovery/
 
+# change working directory and checkout the version used for the replication
+WORKDIR /app/JSONSchemaDiscovery
+RUN git checkout tags/1.1.0
+
 # install all project dependencies 
-RUN cd JSONSchemaDiscovery; npm install
+RUN npm install
 
 # copy the start script and execute it to start the project
+WORKDIR /app
 COPY entrypoint.sh /app
-RUN cd /app
 RUN chmod +x entrypoint.sh
 
-#ENTRYPOINT ["./entrypoint.sh"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+# start JSONSchemaDiscovery project as docker entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
