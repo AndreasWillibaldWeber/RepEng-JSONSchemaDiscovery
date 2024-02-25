@@ -1,5 +1,7 @@
 DIR=$(notdir ${PWD})
 
+.PHONY: all compile clean rename
+
 all: compile rename clean
 
 compile:
@@ -8,6 +10,6 @@ compile:
 	pdflatex main.tex
 	pdflatex main.tex
 clean:
-	rm *.aux *.log *.out
+	rm *.aux *.log *.out *.bbl *.blg *.toc
 rename:
 	mv main.pdf ${DIR}.pdf
