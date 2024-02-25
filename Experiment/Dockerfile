@@ -46,7 +46,7 @@ COPY datasets /datasets
 COPY experiment.py /experiment
 COPY smoke.sh /experiment
 COPY restore.sh /experiment
-COPY MAKEFILE /report
+COPY Makefile /report
 
 # make scripts executable
 RUN chmod +x restore.sh
