@@ -10,6 +10,6 @@ compile:
 	pdflatex main.tex
 	pdflatex main.tex
 clean:
-	rm *.aux *.log *.out *.bbl *.blg *.toc
+	rm *.aux *.log *.out *.bbl *.blg
 rename:
 	mv main.pdf ${DIR}.pdf
