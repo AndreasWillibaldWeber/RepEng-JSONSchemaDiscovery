@@ -8,7 +8,7 @@ ENV LC_ALL="C.UTF-8"
 ENV PYTHON=/usr/bin/python3
 
 # install necessary software
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     ca-certificates \
     wget \
     git \
@@ -46,6 +46,7 @@ COPY datasets /datasets
 COPY experiment.py /experiment
 COPY smoke.sh /experiment
 COPY restore.sh /experiment
+COPY requirements.txt /experiment
 COPY Makefile /report
 
 # make scripts executable
@@ -53,7 +54,7 @@ RUN chmod +x restore.sh
 RUN chmod +x smoke.sh
 
 # install experiment requirements
-RUN pip3 install requests rich
+RUN pip3 install -r requirements.txt
 
 # run smoke test
 RUN ./smoke.sh
