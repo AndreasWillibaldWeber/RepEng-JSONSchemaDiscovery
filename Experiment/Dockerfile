@@ -13,7 +13,7 @@ RUN apt update && apt install -y \
     wget \
     git \
     jq \
-    curl \
+    python3 \
     python3-pip \
     make \
     texlive-base \
