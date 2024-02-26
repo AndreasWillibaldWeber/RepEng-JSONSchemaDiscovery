@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             echo "Help:"
             echo " Option -r or --omit-restore omits restoring the MongoDB database."
-            echo " Option -s or --omit-smoke omits executing smoke test."
+            echo " Option -s or --smoke executes smoke test."
             echo " Option -h or --help shows information about available flags."
             exit;;
     esac
