@@ -184,12 +184,12 @@ class Experiment():
             union_time_delta, total_time_delta, union_time_to_total_time_ratio = self._calculate_datetime_deltas(result)
             rows += '{} & {} & {} & {} & {} & {} & {} \\\\ \n'.format(
                 result['collectionName'],
-                result['collectionCount'],
+                round(result['collectionCount'] / 1000000),
                 result['uniqueUnorderedCount'],
                 result['uniqueOrderedCount'],
-                union_time_delta.total_seconds(),
-                total_time_delta.total_seconds(),
-                union_time_to_total_time_ratio
+                round(union_time_delta.total_seconds() / 60.0, 2),
+                round(total_time_delta.total_seconds() / 60.0, 2),
+                round(union_time_to_total_time_ratio, 2)
             )
         bottomrule = '\\bottomrule \n'
         end = '\\end{tabular} \n'
