@@ -2,8 +2,10 @@
 
 # folder paths and file names
 experiemnt_folder=/experiment
+experiment_file=experiment.py
 system_information_folder=/system_information
 report_folder=/report
+report_table=table.tex
 smoke_file=smoke.sh
 restore_file=restore.sh
 collect_system_information_file=collect_system_information.sh
@@ -63,3 +65,11 @@ bash ${system_information_folder}/${collect_system_information_file} ${report_fo
 if [ $omit_restore != true ]; then
     bash ${experiemnt_folder}/${restore_file}
 fi
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# execute the experiment
+# --------------------------------------------------------------------------------------------------------------------------------------
+# 
+# --------------------------------------------------------------------------------------------------------------------------------------
+python3 ${experiment_file} -d combined -c venues --register -o ${report_folder}/${report_table}
+python3 ${experiment_file} -d combined -c venues tweets checkins --delete_batches
