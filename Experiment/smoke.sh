@@ -53,4 +53,21 @@ for package_name in ${apt_package_list[@]}; do
 
 done
 
+web_api_url="http://webapi:4200"
+web_api_status_response="$(wget --spider --server-response ${web_api_url} 2>&1 | awk '/^  HTTP/{print $2}')"
+if [ $web_api_status_response -ne 200 ]; then 
+    echo "Error: WebAPI is not reachable"
+else
+    echo "OK: WebAPI is reachable"
+fi
+
+mongo_host="mongo"
+mongo_port="27017"
+mongo_response=$( mongorestore --host=${mongo_host} --port=${mongo_port} 2>&1 | grep "error connecting to host:" | wc -l )
+if [ $mongo_response -ne 0 ]; then 
+    echo "Error: MongoDB is not reachable"
+else
+    echo "OK: MongoDB is reachable"
+fi
+
 echo "# ------------------------- END SMOKE TEST ----------------------------------"
