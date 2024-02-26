@@ -45,6 +45,7 @@ COPY datasets /datasets
 # copy the experiment, script and make files into the container
 COPY experiment.py /experiment
 COPY smoke.sh /experiment
+COPY doall.sh /experiment
 COPY restore.sh /experiment
 COPY requirements.txt /experiment
 COPY Makefile /report
