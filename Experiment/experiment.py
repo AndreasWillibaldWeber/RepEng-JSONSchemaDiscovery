@@ -175,9 +175,9 @@ class Experiment():
 
 
     def _create_latex_tabular(self):
-        begin = '\\begin{tabular}{ccccccc} \n'
+        begin = '\\begin{tabular}{lrrrrrr} \n'
         toprule = '\\toprule \n'
-        header = '\\textbf{Collection} & \\textbf{N_JSON} & \\textbf{RS} & \\textbf{ROrd} & \\textbf{TB} & \\textbf{TT}  & \\textbf{TB/TT} \\\\ \n'
+        header = '\\textbf{Collection} & \\textbf{N-JSON} & \\textbf{RS} & \\textbf{ROrd} & \\textbf{TB} & \\textbf{TT}  & \\textbf{TB/TT} \\\\ \n'
         midrule = '\\midrule \n'
         rows = ''
         for result in self._batch_results:
@@ -196,7 +196,7 @@ class Experiment():
         return begin + toprule + header + midrule + rows + bottomrule + end
 
 
-    def save_latex_tabular(self, output="./table.tex"):
+    def save_latex_tabular(self, output="./table_result_data.tex"):
         """
         Method to save the latex tabular for the report.
         """
