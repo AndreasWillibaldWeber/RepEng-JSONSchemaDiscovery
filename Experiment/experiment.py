@@ -1,9 +1,15 @@
 #!/usr/Python3
 
-import requests, json, argparse, datetime, time, http
+import requests, argparse, datetime, time
 from rich.progress import track
 
+
+
 class Experiment():
+
+    """
+    Class to connect to and control the JSONSchemaDiscovery WebAPI.
+    """
 
     def __init__(self):
         self._api_host = "webapi"
@@ -16,15 +22,18 @@ class Experiment():
         self._batch_ids = []
         self._batch_results = []
 
+
     def set_api_url(self, host, port):
         assert isinstance(host, str) and isinstance(port, str)
         self._api_host = host
         self._api_port = port
 
+
     def set_db_url(self, host, port):
         assert isinstance(host, str) and isinstance(port, str)
         self._db_host = host
         self._db_port = port
+
 
     def _get_api_url(self):
         return "{}:{}".format(
@@ -32,22 +41,26 @@ class Experiment():
             self._api_port
         )
 
+
     def _get_db_url(self):
         return "{}:{}".format(
             self._db_host,
             self._db_port
         )
 
+
     def _get_standard_header(self):
         return {
             "Content-Type": self._content_type_header
         }
+
 
     def _get_authorization_header(self):
         return {
             "Content-Type": self._content_type_header,
             "Authorization": "Bearer {}".format(self._authorization_token)
         }
+
 
     def _get_registration_data(self, username, email, password):
         assert isinstance(username, str) and isinstance(email, str) and isinstance(password, str)
@@ -56,6 +69,7 @@ class Experiment():
             "email": email,
             "password": password
         }
+
 
     def _get_experiment_data(self, db_name, collection_name, raw_schema_format):
         assert isinstance(db_name, str) and isinstance(collection_name, str) and isinstance(raw_schema_format, bool)
@@ -70,6 +84,7 @@ class Experiment():
             "rawSchemaFormat": raw_schema_format
         }
 
+
     def _get_login_data(self, email, password):
         return {
             "email": email,
@@ -79,6 +94,7 @@ class Experiment():
     def _get_datetime(self, result, date_field):
         assert isinstance(result, object) and isinstance(date_field, str)
         return datetime.datetime.strptime(result[date_field], '%Y-%m-%dT%H:%M:%S.%fZ')
+
 
     def _calculate_datetime_deltas(self, result):
         start_date = self._get_datetime(result, 'startDate')
@@ -99,7 +115,11 @@ class Experiment():
             extraction_time_to_total_time_ratio: extraction_time_to_total_time_ratio
         }
 
+
     def register(self, username, email, password):
+        """
+        Method to register an account at JSONSchemaDiscovery WebAPI. 
+        """
         assert isinstance(username, str) \
             and isinstance(email, str) \
             and isinstance(password, str)
@@ -109,7 +129,11 @@ class Experiment():
             json = self._get_registration_data(username, email, password)
         )
 
+
     def login(self, email, password):
+        """
+        Method to logging into an account at JSONSchemaDiscovery WebAPI. 
+        """
         assert isinstance(email, str) and isinstance(password, str)
         response = requests.post(
             "http://{}/api/login".format(self._get_api_url()),
@@ -118,7 +142,11 @@ class Experiment():
         )
         self._authorization_token = response.json()['token']
 
+
     def run(self, db_name, collection_name, raw_schema_format=False):
+        """
+        Method to start a batch with all steps for getting raw schemas. 
+        """
         assert isinstance(db_name, str) \
             and isinstance(collection_name, str) \
             and isinstance(raw_schema_format, bool)
@@ -131,9 +159,11 @@ class Experiment():
         self._batch_ids.append(response.json()['batchId'])
         print("Status:", response.json()['status'])
 
+
     def load_results(self):
         for batch in self._load_all_batches():
             self._load_result(batch['_id'])
+
 
     def _load_result(self, batch_id):
         assert isinstance(batch_id, str)
@@ -142,6 +172,7 @@ class Experiment():
             headers = self._get_authorization_header()
         )
         self._batch_results.append(response.json())
+
 
     def _create_latex_tabular(self):
         begin = '\\begin{tabular}{ccccccc} \n'
@@ -164,10 +195,15 @@ class Experiment():
         end = '\\end{tabular} \n'
         return begin + toprule + header + midrule + rows + bottomrule + end
 
+
     def save_latex_tabular(self, output="./table.tex"):
+        """
+        Method to save the latex tabular for the report.
+        """
         tabular = self._create_latex_tabular()
         with open(output, 'w') as file:
             file.write(tabular)
+
 
     def _load_all_batches(self):
         response = requests.get(
@@ -176,7 +212,11 @@ class Experiment():
         )
         return response.json()    
 
+
     def delete_batches(self):
+        """
+        Method to delete batches of an experiment.
+        """
         for batch in self._load_all_batches():
             requests.delete(
                 "http://{}/api/batch/{}".format(self._get_api_url(), batch['_id']),
@@ -184,7 +224,11 @@ class Experiment():
             )
             print("Deleted:", batch['_id'])
     
+
     def check_batch_status(self):
+        """
+        Method to check the status of a batch.
+        """
         ready = False
         while not ready:
             count_undone = 0
@@ -201,7 +245,11 @@ class Experiment():
             time.sleep(15)
 
 
+
 def main(args):
+    """
+    Main function which runs the experiment and collects the results.
+    """
     try:
         experiment = Experiment()
         experiment.set_api_url(args.api_host, args.api_port)
@@ -234,6 +282,9 @@ def main(args):
 
 
 def setup():
+    """
+    Function to evaluate flags from the commandline arguments.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--api_host', default='webapi', type=str)
     parser.add_argument('--api_port', default='3000', type=str)
@@ -248,6 +299,7 @@ def setup():
     parser.add_argument('-o', '--output', default='./table.tex', type=str)
     parser.add_argument('--delete_batches', default=False, action=argparse.BooleanOptionalAction)
     return parser.parse_args()
+
 
 if __name__ == '__main__':
     main(setup())
