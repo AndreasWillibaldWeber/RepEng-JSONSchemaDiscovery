@@ -54,8 +54,8 @@ COPY requirements.txt /experiment
 COPY Makefile /report
 
 # make scripts executable
-RUN chmod +x restore.sh
-RUN chmod +x smoke.sh
+RUN chmod +x restore.sh smoke.sh doall.sh
+RUN chmod +x /system_information/collect_system_information.sh
 
 # install experiment requirements
 RUN pip3 install -r requirements.txt
