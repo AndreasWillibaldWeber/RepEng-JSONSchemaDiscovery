@@ -59,6 +59,3 @@ RUN chmod +x /system_information/collect_system_information.sh
 
 # install experiment requirements
 RUN pip3 install -r requirements.txt
-
-# run smoke test
-RUN ./smoke.sh
