@@ -39,6 +39,9 @@ RUN mv /Report-RepEng-JSONSchemaDiscovery /report
 # switch folder
 WORKDIR /experiment
 
+# copy scripts for collecting system information into the contaier
+COPY system_information /system_information
+
 # copy the data sets into the container
 COPY datasets /datasets
 
