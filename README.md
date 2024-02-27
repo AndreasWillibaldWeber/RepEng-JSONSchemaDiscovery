@@ -30,7 +30,7 @@ the JSONSchemaDiscovery.
 10. use your favourite tool, e.g. VSCode, to attach to the experiment container via tty
 13. to get information about the system environment execute ```/system_information/collect_system_information.sh```
 12. execute ```./restore.sh``` to load the data into MongoDB
-13. navigate to the experiment folder and use: ```python3 experiment.py -d <databasename> -c <collectionname> -o ../report/table.tex```
+13. navigate to the experiment folder and use: ```python3 experiment.py -d <databasename> -c <collectionname> -o ../report/table_result_data.tex```
 14. navigate to the report folder and use ```make``` to build the report
 
 ## Shut down the Docker Container
