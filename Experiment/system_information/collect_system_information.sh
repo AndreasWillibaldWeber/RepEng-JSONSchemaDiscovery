@@ -17,7 +17,7 @@ mem_output_file=mem_listing.txt
 # - cpu_filter.txt contains strings used to filter out unwanted information
 # --------------------------------------------------------------------------------------------------------------------------------------
 lscpu > ${sys_info_folder}/${cpu_info_file}
-cat ${sys_info_folder}/${cpu_info_file} | grep -v -F -f ${sys_info_folder}/${cpu_filter_file} > ${sys_info_folder}/${cpu_output_file}
+cat ${sys_info_folder}/${cpu_info_file} | grep -v -F -f ${sys_info_folder}/${cpu_filter_file} | tr -s ' ' > ${sys_info_folder}/${cpu_output_file}
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # read out the mem information and prepare it for the report
@@ -27,7 +27,7 @@ cat ${sys_info_folder}/${cpu_info_file} | grep -v -F -f ${sys_info_folder}/${cpu
 # - mem_filter.txt contains strings used to retain wanted information
 # --------------------------------------------------------------------------------------------------------------------------------------
 cat /proc/meminfo > ${sys_info_folder}/${mem_info_file}
-cat ${sys_info_folder}/${mem_info_file} | grep -F -f ${sys_info_folder}/${mem_filter_file} > ${sys_info_folder}/${mem_output_file}
+cat ${sys_info_folder}/${mem_info_file} | grep -F -f ${sys_info_folder}/${mem_filter_file} | tr -s ' ' > ${sys_info_folder}/${mem_output_file}
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # copy system information files to given folder
